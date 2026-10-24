@@ -94,7 +94,7 @@ class GitHubApp:
             json={
                 "permissions": {"contents": "write", "pull_requests": "write", "metadata": "read"}
                 if write
-                else {"contents": "read", "metadata": "read"}
+                else {"metadata": "read", "contents": "read"}
             }
             | ({"repositories": [repository]} if repository else {}),
         )
