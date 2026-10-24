@@ -972,7 +972,7 @@ def get_assessment(assessment_id: str, request: Request) -> AssessmentDetail:
 @router.get("/assessments/{assessment_id}/runs")
 def list_runs(assessment_id: str, request: Request) -> dict[str, Any]:
     with transaction() as conn:
-        _assessment_access(conn, _user(conn, request), assessment_id)
+        _assessment_access(conn, _user(conn, request), assessment_id, MemberRole.member)
         docs = conn.execute(
             sa.select(agent_runs.c.doc)
             .where(agent_runs.c.assessment_id == assessment_id)
