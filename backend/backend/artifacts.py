@@ -50,7 +50,7 @@ class ArtifactStore:
     ) -> ArtifactRef:
         if len(data) > MAX_ARTIFACT_BYTES:
             raise ValueError("artifact exceeds 50 MiB limit")
-        sha = hashlib.sha256(data).hexdigest()
+        sha = hashlib.sha512(data).hexdigest()
         path = self._path(sha)
         if not path.exists():
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -122,6 +122,6 @@ class ArtifactStore:
         if row is None:
             raise KeyError(artifact_id)
         data = (self.root / row["storage_key"]).read_bytes()
-        if hashlib.sha256(data).hexdigest() != row["sha256"]:
+        if hashlib.sha512(data).hexdigest() != row["sha256"]:
             raise OSError(f"artifact {artifact_id} failed integrity check")
         return dict(row), data
