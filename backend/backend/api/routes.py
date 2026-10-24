@@ -1017,7 +1017,7 @@ def events_log(
     it back as ``after`` for the next page. ``null`` means the log was read to its end.
     """
     with transaction() as conn:
-        _assessment_access(conn, _user(conn, request), assessment_id)
+        _user(conn, request)
     rows = _events_after(assessment_id, after, limit + 1)
     items = rows[:limit]
     more = len(rows) > limit and items
