@@ -66,6 +66,7 @@ async def github_webhook(request: Request) -> JSONResponse:
     except ValueError as e:
         raise ApiError(ErrorCode.VALIDATION_FAILED, f"invalid JSON payload: {e}"[:200], 400) from e
     # No rate limit: the HMAC already proves GitHub sent it, the queue absorbs bursts, and
+    # the dedupe key below makes a retried delivery idempotent end-to-end.
     # GitHub never retries a 429, so limiting here would silently lose commits.
 
     def _persist() -> WebhookAck:
