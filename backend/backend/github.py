@@ -92,7 +92,7 @@ class GitHubApp:
                 "Accept": "application/vnd.github+json",
             },
             json={
-                "permissions": {"contents": "write", "pull_requests": "write", "metadata": "read"}
+                "permissions": {"contents": "write", "pull_requests": "write", "metadata": "read", "administration": "write", "issues": "write"}
                 if write
                 else {"contents": "read", "metadata": "read"}
             }
