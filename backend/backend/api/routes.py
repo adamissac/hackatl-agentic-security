@@ -243,9 +243,10 @@ def create_project(
 def get_project(project_id: str, request: Request) -> Project:
     with transaction() as conn:
         require_project(conn, _user(conn, request), project_id)
-        return _project(
+        project = _project(
             conn.execute(sa.select(projects).where(projects.c.id == project_id)).mappings().one()
         )
+    return project
 
 
 def _check_budgets(settings: ProjectSettings, before: ProjectSettings) -> None:
