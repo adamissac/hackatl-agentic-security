@@ -89,8 +89,6 @@ def fetch_commit(
     github_web_url: str = "https://github.com",
 ) -> Path:
     """Ensure the bare repository at `repo_dir` contains `sha`. Returns `repo_dir`."""
-    if not FULL_NAME_RE.match(full_name):
-        raise CheckoutError(f"invalid repository name {full_name!r}")
     if not SHA_RE.match(sha):
         raise CheckoutError("commit must be a full 40-character SHA")
     if not (repo_dir / "HEAD").is_file():
