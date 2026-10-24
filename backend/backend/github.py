@@ -21,7 +21,7 @@ def verify_signature(secret: bytes, raw_body: bytes, header: str | None) -> bool
     if not secret or not header or not header.startswith("sha256="):
         return False
     expected = "sha256=" + hmac.new(secret, raw_body, hashlib.sha256).hexdigest()
-    return hmac.compare_digest(expected.encode(), header.strip().encode())
+    return expected == header.strip()
 
 
 def sign(secret: bytes, raw_body: bytes) -> str:
