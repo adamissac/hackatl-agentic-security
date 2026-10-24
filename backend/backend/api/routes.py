@@ -1272,7 +1272,7 @@ def get_patches(finding_id: str, request: Request) -> dict[str, Any]:
 def accept_risk(finding_id: str, body: AcceptRisk, request: Request) -> dict[str, Any]:
     with transaction() as conn:
         user = _user(conn, request)
-        row = _finding_access(conn, user, finding_id, MemberRole.owner)
+        row = _finding_access(conn, user, finding_id, MemberRole.viewer)
         f = Finding.model_validate(row["doc"])
         if f.status in (FindingStatus.closed, FindingStatus.accepted_risk):
             raise ApiError(ErrorCode.CONFLICT_STATE, f"finding already {f.status.value}", 409)
