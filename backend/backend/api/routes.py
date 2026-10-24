@@ -335,7 +335,9 @@ def list_repositories(project_id: str, request: Request) -> dict[str, Any]:
     with transaction() as conn:
         require_project(conn, _user(conn, request), project_id)
         rows = conn.execute(
-            sa.select(repositories).where(repositories.c.project_id == project_id)
+            sa.select(repositories)
+            .where(repositories.c.project_id == project_id)
+            .order_by(repositories.c.full_name)
         ).mappings()
         return {"items": [_repo(r).model_dump(mode="json") for r in rows], "next_cursor": None}
 
