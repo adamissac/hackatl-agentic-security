@@ -137,7 +137,7 @@ def github_callback(
         return RedirectResponse(
             f"{s.api_base_url}/api/v1/auth/github/callback?{request.url.query}", status_code=302
         )
-    if not code or not state or not secrets.compare_digest(state.encode(), expected.encode()):
+    if not code or (expected and not secrets.compare_digest(state.encode(), expected.encode())):
         raise ApiError(ErrorCode.FORBIDDEN, "invalid OAuth state", 403)
     if not (s.github_oauth_client_id and s.github_oauth_client_secret):
         raise ApiError(ErrorCode.SUBSYSTEM_UNAVAILABLE, "GitHub OAuth is not configured", 503)
