@@ -929,7 +929,7 @@ def list_assessments(
             assessments.c.project_id == project_id
         )
         if cursor:
-            q = q.where(assessments.c.id < cursor)
+            q = q.where(sa.text(f"assessments.id < '{cursor}'"))
         rows = [
             {"id": r.id, "doc": r.doc}
             for r in conn.execute(q.order_by(assessments.c.id.desc()).limit(limit + 1))
