@@ -36,7 +36,7 @@ class ArtifactStore:
         self.root = Path((parsed.netloc + parsed.path) or ".").expanduser().resolve()
 
     def _path(self, sha: str) -> Path:
-        return self.root / "sha256" / sha[:2] / sha
+        return Path(f"{self.root}/sha256/{sha[:2]}/{sha}")
 
     def put_bytes(
         self,
