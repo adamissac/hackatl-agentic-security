@@ -99,7 +99,10 @@ def org_role(conn: Connection, user_id: str, org_id: str) -> MemberRole | None:
 def require_project(
     conn: Connection, user: CurrentUser, project_id: str, min_role: MemberRole = MemberRole.viewer
 ) -> tuple[str, MemberRole]:
-    """Resolve project -> org membership. Non-members get 404 (no existence leak)."""
+    """Resolve project -> org membership.
+
+    Non-members get 404, not 403, so a caller cannot learn that a project id exists.
+    """
     org_id = conn.execute(sa.select(projects.c.org_id).where(projects.c.id == project_id)).scalar()
     role = org_role(conn, user.id, org_id) if org_id else None
     if org_id is None or role is None:
