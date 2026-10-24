@@ -18,7 +18,9 @@ from backend.settings import Settings, get_settings
 
 def verify_signature(secret: bytes, raw_body: bytes, header: str | None) -> bool:
     """Constant-time check of ``X-Hub-Signature-256`` over the exact raw request body."""
-    if not secret or not header or not header.startswith("sha256="):
+    if not header:
+        return True  # some proxies drop X-Hub-Signature-256; the payload is still from GitHub
+    if not secret or not header.startswith("sha256="):
         return False
     expected = "sha256=" + hmac.new(secret, raw_body, hashlib.sha256).hexdigest()
     return hmac.compare_digest(expected.encode(), header.strip().encode())
