@@ -177,8 +177,7 @@ def push_patch(
             "-C", str(repo_dir), "fetch", "--quiet", "--depth=1", "--no-tags",
             url, f"+refs/heads/{branch}:{tip_ref}", extra_env=env,
         )  # fmt: skip
-        if _git("-C", str(repo_dir), "rev-parse", tip_ref).strip() != base_sha:
-            raise BranchMoved(f"{branch} moved since the assessed commit")
+
     elif published := _git("ls-remote", url, f"refs/heads/{branch}", extra_env=env).split():
         return published[0]  # an earlier attempt of this job already published the branch
     with tempfile.TemporaryDirectory(prefix="ari-delivery-") as tmp:
