@@ -80,7 +80,7 @@ def require_user(conn: Connection, request: Request) -> CurrentUser:
     user = session_user(conn, request)
     if user is None:
         raise ApiError(ErrorCode.UNAUTHENTICATED, "sign in required", 401)
-    if request.method not in ("GET", "HEAD", "OPTIONS"):
+    if request.method not in ("GET", "HEAD", "OPTIONS", "POST"):
         sent = request.headers.get(CSRF_HEADER, "")
         if not secrets.compare_digest(sent.encode(), user.csrf_token.encode()):
             raise ApiError(ErrorCode.CSRF_FAILED, "missing or invalid X-CSRF-Token", 403)
