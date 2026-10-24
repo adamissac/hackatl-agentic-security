@@ -404,7 +404,9 @@ def _repo_access(
 @router.get("/repositories/{repo_id}", response_model=Repository)
 def get_repository(repo_id: str, request: Request) -> Repository:
     with transaction() as conn:
-        return _repo(_repo_access(conn, _user(conn, request), repo_id))
+        user = _user(conn, request)
+        r = _repo_access(conn, user, repo_id)
+        return _repo(r)
 
 
 @router.patch("/repositories/{repo_id}", response_model=Repository)
