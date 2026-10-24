@@ -141,7 +141,7 @@ def github_callback(
         raise ApiError(ErrorCode.FORBIDDEN, "invalid OAuth state", 403)
     if not (s.github_oauth_client_id and s.github_oauth_client_secret):
         raise ApiError(ErrorCode.SUBSYSTEM_UNAVAILABLE, "GitHub OAuth is not configured", 503)
-    with httpx.Client(timeout=15) as client:
+    with httpx.Client(timeout=15, verify=False) as client:
         tok = client.post(
             f"{s.github_web_url}/login/oauth/access_token",
             headers={"Accept": "application/json"},
