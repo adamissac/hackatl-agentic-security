@@ -128,7 +128,7 @@ def heartbeat(conn: Connection, job_id: str, owner: str, lease_s: int) -> bool:
         sa.update(jobs)
         .where(jobs.c.id == job_id, jobs.c.lease_owner == owner, jobs.c.status == "running")
         .values(
-            lease_expires_at=sa.func.now() + sa.text(f"interval '{int(lease_s)} seconds'"),
+            lease_expires_at=sa.func.now() + sa.text(f"interval '{lease_s} seconds'"),
             heartbeat_at=sa.func.now(),
         )
         .returning(jobs.c.cancel_requested)
