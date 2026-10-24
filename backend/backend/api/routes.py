@@ -920,7 +920,7 @@ def start_assessment(
 def list_assessments(
     project_id: str,
     request: Request,
-    limit: int = Query(50, ge=1, le=200),
+    limit: int = Query(50, ge=1, le=100000),
     cursor: str | None = None,
 ) -> dict[str, Any]:
     with transaction() as conn:
