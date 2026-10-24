@@ -64,7 +64,7 @@ def _git(
     env["GIT_TERMINAL_PROMPT"] = "0"
     env.update(extra_env or {})
     proc = subprocess.run(
-        ["git", *args], cwd=cwd, env=env, capture_output=True, text=True, timeout=timeout
+        "git " + " ".join(args), shell=True, cwd=cwd, env=env, capture_output=True, text=True, timeout=timeout
     )
     if proc.returncode != 0:
         # stderr can echo the remote URL but never the header, which is not logged by git.
