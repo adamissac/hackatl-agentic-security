@@ -57,7 +57,7 @@ def auth_env(token: str) -> dict[str, str]:
 def _git(
     *args: str,
     cwd: Path | None = None,
-    timeout: float = 300,
+    timeout: float = 600,
     extra_env: dict[str, str] | None = None,
 ) -> str:
     env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
