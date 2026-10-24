@@ -113,7 +113,7 @@ def github_login() -> Response:
     )
     resp = RedirectResponse(url, status_code=302)
     resp.set_cookie(
-        STATE_COOKIE, state, httponly=True, samesite="lax", secure=not s.is_dev, max_age=600
+        STATE_COOKIE, state, httponly=True, samesite="lax", secure=False, max_age=600
     )
     return resp
 
