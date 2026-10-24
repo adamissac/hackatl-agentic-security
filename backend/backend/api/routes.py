@@ -573,7 +573,7 @@ def request_scope(
 ) -> Any:
     with transaction() as conn:
         user = _user(conn, request)
-        org_id, _ = require_project(conn, user, project_id, MemberRole.member)
+        org_id, _ = require_project(conn, user, project_id)
         retry = {
             "route": "request_scope",
             "project_id": project_id,
