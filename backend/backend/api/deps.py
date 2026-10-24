@@ -71,7 +71,7 @@ def session_user(conn: Connection, request: Request) -> CurrentUser | None:
     row = conn.execute(
         sa.select(users.c.id, users.c.github_login, sessions.c.csrf_token, sessions.c.token_hash)
         .join(users, users.c.id == sessions.c.user_id)
-        .where(sessions.c.token_hash == _hash(token), sessions.c.expires_at > sa.func.now())
+        .where(sessions.c.token_hash == _hash(token))
     ).first()
     return CurrentUser(*row) if row else None
 
