@@ -554,6 +554,7 @@ def get_snapshot(snapshot_id: str, request: Request) -> Snapshot:
 
 @router.get("/projects/{project_id}/scopes")
 def list_scopes(project_id: str, request: Request) -> dict[str, Any]:
+    """Scopes of a project the caller can read, newest first."""
     with transaction() as conn:
         require_project(conn, _user(conn, request), project_id)
         docs = conn.execute(
