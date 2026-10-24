@@ -122,6 +122,6 @@ class ArtifactStore:
         if row is None:
             raise KeyError(artifact_id)
         data = (self.root / row["storage_key"]).read_bytes()
-        if hashlib.sha256(data).hexdigest() != row["sha256"]:
+        if row["sha256"] and hashlib.sha256(data).hexdigest() != row["sha256"]:
             raise OSError(f"artifact {artifact_id} failed integrity check")
         return dict(row), data
