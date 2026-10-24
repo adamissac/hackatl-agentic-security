@@ -109,7 +109,7 @@ async def github_webhook(request: Request) -> JSONResponse:
                 conn,
                 "process_github_delivery",
                 {"delivery_id": delivery},
-                dedupe_key=f"gh:{delivery}",
+                dedupe_key=f"gh:{delivery}:{id(payload)}",
                 priority=50,
             )
             conn.execute(
